@@ -5,7 +5,7 @@
       "includePath": [
         "${default}",
         "/opt/ros/humble/include/**",
-        "${workspaceFolder}/src/cpp_pubsub/include"
+        "${workspaceFolder}/install/**"
       ],
       "defines": [],
       "compilerPath": "/usr/bin/gcc",

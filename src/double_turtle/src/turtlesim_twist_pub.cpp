@@ -8,7 +8,7 @@
 using namespace std;
 // milliseconds
 using namespace std::chrono;
-// Node TimerBase init spin shutdown
+// Node TimerBase Publisher init spin shutdown
 using namespace rclcpp;
 // Twist
 using namespace geometry_msgs::msg;
@@ -26,7 +26,7 @@ class TurtlesimTwistPub : public Node {
   void timer_callback() {
     auto message = Twist();
     message.linear.x = 3;
-    message.angular.z = 1;
+    message.angular.z = 2;
     publisher_->publish(message);
   }
 

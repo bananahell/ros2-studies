@@ -9,14 +9,18 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
-find_package(rclcpp_components REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(turtlesim REQUIRED)
 
 add_executable(turtlesim_twist_pub src/turtlesim_twist_pub.cpp)
 ament_target_dependencies(turtlesim_twist_pub rclcpp geometry_msgs)
 
+add_executable(turtlesim_rotate_action_cli src/turtlesim_rotate_action_cli.cpp)
+ament_target_dependencies(turtlesim_rotate_action_cli rclcpp rclcpp_action turtlesim)
+
 install(TARGETS
   turtlesim_twist_pub
+  turtlesim_rotate_action_cli
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

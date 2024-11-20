@@ -3,11 +3,16 @@
 <package format="3">
   <name>double_turtle</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="cmcg89034@gmail.com">bj</maintainer>
+  <description>Package that uses two turtlebots to take in different assignments</description>
+  <maintainer email="cmcg89034@gmail.com">Pedro Nogueira</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>rclcpp_action</depend>
+  <depend>rclcpp_components</depend>
+  <depend>geometry_msgs</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

@@ -5,14 +5,17 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "turtlesim/action/rotate_absolute.hpp"
 
-// bind make_shared
+// stringstream bind make_shared
 using namespace std;
 // milliseconds
-using namespace chrono;
-using namespace placeholders;
+using namespace std::chrono;
+// _1 _2
+using namespace std::placeholders;
 // RotateAbsolute
 using namespace turtlesim::action;
+// Node TimerBase init spin shutdown
 using namespace rclcpp;
+// ClientGoalHandle ResultCode
 using namespace rclcpp_action;
 
 class TurtlesimRotateActionCli : public Node {
@@ -20,8 +23,9 @@ class TurtlesimRotateActionCli : public Node {
   TurtlesimRotateActionCli() : Node("turtlesim_rotate_action_cli") {
     const string cliName = "/turtlesim2/turtle1/rotate_absolute";
     client_ = rclcpp_action::create_client<RotateAbsolute>(this, cliName);
+    currAngle = 0;
     timer_ = this->create_wall_timer(
-        milliseconds(500), bind(&TurtlesimRotateActionCli::send_goal, this));
+        milliseconds(5000), bind(&TurtlesimRotateActionCli::send_goal, this));
   }
 
  private:
@@ -29,9 +33,9 @@ class TurtlesimRotateActionCli : public Node {
 
   rclcpp_action::Client<RotateAbsolute>::SharedPtr client_;
 
-  void send_goal() {
-    this->timer_->cancel();
+  float currAngle;
 
+  void send_goal() {
     if (!this->client_->wait_for_action_server()) {
       RCLCPP_ERROR(this->get_logger(),
                    "Action server not available after waiting");
@@ -39,7 +43,8 @@ class TurtlesimRotateActionCli : public Node {
     }
 
     auto goal_msg = RotateAbsolute::Goal();
-    goal_msg.theta = 10;
+    currAngle++;
+    goal_msg.theta = currAngle;
 
     RCLCPP_INFO(this->get_logger(), "Sending goal");
 
@@ -92,12 +97,12 @@ class TurtlesimRotateActionCli : public Node {
     ss << "Result received: ";
     ss << result.result->delta << " ";
     RCLCPP_INFO(this->get_logger(), ss.str().c_str());
-    shutdown();
   }
 };
 
 int main(int argc, char* argv[]) {
   init(argc, argv);
   spin(make_shared<TurtlesimRotateActionCli>());
+  shutdown();
   return 0;
 }

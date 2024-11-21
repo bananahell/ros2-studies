@@ -16,7 +16,7 @@ add_executable(turtlesim_twist_pub src/turtlesim_twist_pub.cpp)
 ament_target_dependencies(turtlesim_twist_pub rclcpp geometry_msgs)
 
 add_executable(turtlesim_rotate_action_cli src/turtlesim_rotate_action_cli.cpp)
-ament_target_dependencies(turtlesim_rotate_action_cli rclcpp rclcpp_action turtlesim)
+ament_target_dependencies(turtlesim_rotate_action_cli rclcpp rclcpp_action turtlesim geometry_msgs)
 
 install(TARGETS
   turtlesim_twist_pub

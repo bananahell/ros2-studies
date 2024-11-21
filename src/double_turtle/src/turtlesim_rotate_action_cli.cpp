@@ -1,6 +1,8 @@
 #include <chrono>
+#include <cmath>
 #include <memory>
 
+#include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "turtlesim/action/rotate_absolute.hpp"
@@ -11,21 +13,25 @@ using namespace std;
 using namespace std::chrono;
 // _1 _2
 using namespace std::placeholders;
-// RotateAbsolute
-using namespace turtlesim::action;
 // Node TimerBase init spin shutdown
 using namespace rclcpp;
 // ClientGoalHandle ResultCode
 using namespace rclcpp_action;
+// RotateAbsolute
+using namespace turtlesim::action;
+// Twist
+using namespace geometry_msgs::msg;
 
 class TurtlesimRotateActionCli : public Node {
  public:
   TurtlesimRotateActionCli() : Node("turtlesim_rotate_action_cli") {
     const string cliName = "/turtlesim2/turtle1/rotate_absolute";
+    const string pubName = "/turtlesim2/turtle1/cmd_vel";
     client_ = rclcpp_action::create_client<RotateAbsolute>(this, cliName);
+    publisher_ = this->create_publisher<Twist>(pubName, 10);
     currAngle = 0;
     timer_ = this->create_wall_timer(
-        milliseconds(5000), bind(&TurtlesimRotateActionCli::send_goal, this));
+        milliseconds(1000), bind(&TurtlesimRotateActionCli::send_goal, this));
   }
 
  private:
@@ -33,9 +39,13 @@ class TurtlesimRotateActionCli : public Node {
 
   rclcpp_action::Client<RotateAbsolute>::SharedPtr client_;
 
+  Publisher<Twist>::SharedPtr publisher_;
+
   float currAngle;
 
   void send_goal() {
+    this->timer_->cancel();
+
     if (!this->client_->wait_for_action_server()) {
       RCLCPP_ERROR(this->get_logger(),
                    "Action server not available after waiting");
@@ -43,7 +53,7 @@ class TurtlesimRotateActionCli : public Node {
     }
 
     auto goal_msg = RotateAbsolute::Goal();
-    currAngle++;
+    currAngle += M_PI / 2;
     goal_msg.theta = currAngle;
 
     RCLCPP_INFO(this->get_logger(), "Sending goal");
@@ -97,6 +107,16 @@ class TurtlesimRotateActionCli : public Node {
     ss << "Result received: ";
     ss << result.result->delta << " ";
     RCLCPP_INFO(this->get_logger(), ss.str().c_str());
+    timer_callback();
+  }
+
+  void timer_callback() {
+    this->timer_->cancel();
+    auto message = Twist();
+    message.linear.x = 3;
+    publisher_->publish(message);
+    timer_ = this->create_wall_timer(
+        milliseconds(500), bind(&TurtlesimRotateActionCli::send_goal, this));
   }
 };
 

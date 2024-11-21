@@ -5,8 +5,7 @@
       "includePath": [
         "${default}",
         "/opt/ros/humble/include/**",
-        "${workspaceFolder}/install/**",
-        "${workspaceFolder}/src/action_tutorials_cpp/**"
+        "${workspaceFolder}/install/**"
       ],
       "defines": [],
       "compilerPath": "/usr/bin/gcc",

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(action_tutorials_interfaces)
+project(double_turtle)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,11 +7,21 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(turtlesim REQUIRED)
 
-rosidl_generate_interfaces(${PROJECT_NAME}
-  "action/Fibonacci.action"
-)
+add_executable(turtlesim_twist_pub src/turtlesim_twist_pub.cpp)
+ament_target_dependencies(turtlesim_twist_pub rclcpp geometry_msgs)
+
+add_executable(turtlesim_rotate_action_cli src/turtlesim_rotate_action_cli.cpp)
+ament_target_dependencies(turtlesim_rotate_action_cli rclcpp rclcpp_action turtlesim geometry_msgs)
+
+install(TARGETS
+  turtlesim_twist_pub
+  turtlesim_rotate_action_cli
+  DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

@@ -111,7 +111,6 @@ class TurtlesimRotateActionCli : public Node {
   }
 
   void timer_callback() {
-    this->timer_->cancel();
     auto message = Twist();
     message.linear.x = 3;
     publisher_->publish(message);

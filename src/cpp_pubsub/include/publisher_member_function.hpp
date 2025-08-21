@@ -1,3 +1,6 @@
+#ifndef PUBLISHER_MEMBER_FUNCTION
+#define PUBLISHER_MEMBER_FUNCTION
+
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 
@@ -14,3 +17,5 @@ class MinimalPublisher : public rclcpp::Node {
 
   size_t count_;
 };
+
+#endif  // PUBLISHER_MEMBER_FUNCTION

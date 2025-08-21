@@ -10,5 +10,8 @@
     "/opt/ros/humble/local/lib/python3.10/dist-packages",
     "/my_project/build/package1",
     "/my_project/build/package2"
-  ]
+  ],
+  "files.associations": {
+    "functional": "cpp"
+  }
 }

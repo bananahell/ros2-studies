@@ -1,0 +1,9 @@
+<root main_tree_to_execute="MainTree">
+    <BehaviorTree ID="MainTree">
+        <Sequence name="root_sequence">
+            <SaySomething name="say_hello" message="Hello" />
+            <SaySomething name="say_world" message="World!" />
+            <AlwaysSuccess name="success_node" />
+        </Sequence>
+    </BehaviorTree>
+</root>

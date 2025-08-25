@@ -1,0 +1,10 @@
+<root main_tree_to_execute="MainTree">
+    <BehaviorTree ID="MainTree">
+        <Sequence name="make_coffee">
+            <HeatWater name="heat_water" />
+            <GrindBeans name="grind_beans" />
+            <BrewCoffee name="brew_coffee" />
+            <SaySomething name="serve_coffee" message="Coffee is ready! Enjoy!" />
+        </Sequence>
+    </BehaviorTree>
+</root>

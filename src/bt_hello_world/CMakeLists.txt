@@ -11,7 +11,10 @@ find_package(rclcpp REQUIRED)
 find_package(behaviortree_cpp_v3 REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 
-add_executable(hello_world src/hello_world_bt.cpp)
+add_executable(hello_world
+  src/hello_world_bt.cpp
+  src/say_something_node.cpp
+)
 target_include_directories(hello_world PRIVATE "${CMAKE_CURRENT_LIST_DIR}/include")
 ament_target_dependencies(hello_world rclcpp behaviortree_cpp_v3 ament_index_cpp)
 
